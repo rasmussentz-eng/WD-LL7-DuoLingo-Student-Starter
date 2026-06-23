@@ -1,30 +1,20 @@
 /* ================================================================
-   DEVSHOP CHALLENGE — STARTER SCRIPT
+   DEVSHOP CHALLENGE — INSTRUCTOR SOLUTION
    ================================================================
-   Your job: build the logic behind ONE Duolingo feature.
+   This solution builds the ⭐ XP & Scoring System feature, and also
+   demonstrates the 🎁 Random Rewards array logic (Step 3) so you
+   have a reference for every required element in one file.
 
-   Choose ONE:
-     ❤️ Lives System
-     🔥 Streak Tracker
-     🎁 Random Rewards
-     ⭐ XP & Scoring System
+   Use this to:
+     - Show a finished example during Showcase if needed
 
-   This file is scaffolded in 6 steps, matching the game loop:
-   Player Action -> Game Logic -> Update Game State -> Give Feedback -> Repeat
-
-   Read every comment before you start typing. Replace anything
-   in ALL_CAPS or marked TODO with your own code.
+   This mirrors the same 8-step structure as the starter file —
+   nothing here should look unfamiliar to students.
 ================================================================ */
 
 
 /* ----------------------------------------------------------------
-   STEP 1: GRAB YOUR DOM ELEMENTS
-   ----------------------------------------------------------------
-   JavaScript can't update what it can't see. These lines connect
-   your HTML elements to variables you can control in this file.
-
-   You probably won't need to change this step — these IDs already
-   match index.html.
+   STEP 1: GRAB DOM ELEMENTS
 ---------------------------------------------------------------- */
 const statLabel = document.getElementById("statLabel");
 const statValue = document.getElementById("statValue");
@@ -33,56 +23,38 @@ const answerBtn = document.getElementById("answerBtn");
 const resetBtn = document.getElementById("resetBtn");
 const devLog = document.getElementById("devLog");
 
+// Update the label so the UI matches the feature we picked.
+statLabel.textContent = "XP";
+
 
 /* ----------------------------------------------------------------
-   STEP 2: CREATE YOUR GAME STATE VARIABLE(S)
+   STEP 2: GAME STATE VARIABLE
    ----------------------------------------------------------------
-   This is the ONE piece of information your feature tracks.
-
-   Ask yourself: what number or value changes as the player plays?
-
-   Use `let`, not `const` — this value is going to change!
-
-   Examples (pick the one that matches your feature, or write your own):
-
-     Lives System:     let lives = 3;
-     Streak Tracker:   let streak = 0;
-     Random Rewards:   let lastReward = 0;
-     XP & Scoring:     let xp = 0;
-
-   TODO: Replace the line below with your own state variable.
+   We picked XP & Scoring, so our state variable is `xp`.
+   It starts at 0 and increases as the player answers correctly.
 ---------------------------------------------------------------- */
-let gameState = 0; // <-- rename this and set a starting value
+let xp = 0;
+const STARTING_XP = 0; // kept separate so Reset (Step 7) always matches Step 2
 
 
 /* ----------------------------------------------------------------
-   STEP 3 (OPTIONAL — Random Rewards teams need this):
-   CREATE AN ARRAY OF POSSIBLE VALUES
+   STEP 3: ARRAY OF POSSIBLE VALUES
    ----------------------------------------------------------------
-   Arrays store multiple values in one variable. If your feature
-   involves randomness (like surprise rewards), define your
-   options here instead of hardcoding a single value.
+   Even though our core feature is XP, we're using an array here
+   to decide HOW MUCH xp is earned per correct answer — this is
+   the same array pattern a Random Rewards team would use.
 
-   Example:
-     const rewardOptions = [10, 15, 20, 50];
-
-   If your feature does NOT use randomness, you can ignore this
-   step or delete it.
+   Math.random() + Math.floor() picks a random index from this
+   array, so the amount of XP earned varies each time.
 ---------------------------------------------------------------- */
-// const rewardOptions = [/* TODO: add your possible values */];
+const xpRewards = [5, 10, 15, 25]; // small, medium, big, jackpot
 
 
 /* ----------------------------------------------------------------
-   STEP 4: SIMULATE A "CORRECT" OR "INCORRECT" ANSWER
+   STEP 4: SIMULATE A CORRECT/INCORRECT ANSWER
    ----------------------------------------------------------------
-   In a real app, this would come from checking user input.
-   For this prototype, we'll randomly decide if the simulated
-   answer is correct — this lets you test your logic by clicking
-   the button repeatedly.
-
-   You don't need to change this — but make sure you understand it!
-     Math.random()       -> a random decimal between 0 and 1
-     Math.random() > 0.5 -> true about half the time, false the rest
+   Unchanged from the starter file — this is provided so students
+   can test their logic without building a real quiz.
 ---------------------------------------------------------------- */
 function isAnswerCorrect() {
   return Math.random() > 0.5;
@@ -90,113 +62,66 @@ function isAnswerCorrect() {
 
 
 /* ----------------------------------------------------------------
-   STEP 5: BUILD YOUR GAME LOGIC (THE CORE OF YOUR CHALLENGE)
+   STEP 5: CORE GAME LOGIC
    ----------------------------------------------------------------
-   This function runs every time the player clicks "Submit Answer."
+   Our IF -> THEN plan:
 
-   This is where you turn your IF -> THEN plan into real code.
+     IF the answer is correct
+     THEN earn a random amount of XP and show encouragement
 
-   Before writing code here, finish this sentence on paper or in
-   chat with your team:
+     IF the answer is incorrect
+     THEN earn no XP and prompt the player to try again
 
-     IF ________________________
-     THEN ________________________
-
-   Then translate it below. Some starter patterns are shown —
-   delete the ones you don't need and build out your own.
+     IF xp crosses a milestone (50, 100)
+     THEN show progressively bigger celebration messages
 ---------------------------------------------------------------- */
 function handleAnswer() {
 
   const correct = isAnswerCorrect();
 
-  // --------------------------------------------------------------
-  // TODO: Update your game state based on whether the answer
-  // was correct or incorrect.
-  //
-  // Example pattern (Lives System):
-  //
-  //   if (correct) {
-  //     message.textContent = "Correct! Keep going.";
-  //   } else {
-  //     gameState--;
-  //     message.textContent = "Incorrect! You lost a life.";
-  //   }
-  //
-  // Example pattern (Streak Tracker):
-  //
-  //   if (correct) {
-  //     gameState++;
-  //     message.textContent = `Nice! Streak is now ${gameState}.`;
-  //   } else {
-  //     gameState = 0;
-  //     message.textContent = "Streak reset. Try again!";
-  //   }
-  // --------------------------------------------------------------
-
+  // ----- Correct / incorrect branch -----
+  // This updates state based on the MOST RECENT action.
   if (correct) {
-    // TODO: what happens to your game state when the answer is correct?
-    message.textContent = "Correct!";
+    // Pick a random reward amount from our array (Step 3 in action).
+    const randomIndex = Math.floor(Math.random() * xpRewards.length);
+    const earnedXP = xpRewards[randomIndex];
+
+    xp += earnedXP; // shorthand for: xp = xp + earnedXP
+    message.textContent = `Correct! You earned +${earnedXP} XP.`;
   } else {
-    // TODO: what happens to your game state when the answer is incorrect?
-    message.textContent = "Try again!";
+    message.textContent = "Not quite — try again! (no XP lost)";
   }
 
+  // ----- Milestone branch -----
+  // This reacts to the CURRENT STATE, not just the last answer.
+  // Notice this is a SEPARATE if/else chain from the one above —
+  // two different decisions are being made here.
+  if (xp >= 100) {
+    message.textContent = "🎉 Level Up! You hit 100 XP!";
+  } else if (xp >= 50) {
+    message.textContent += " You're halfway to leveling up!";
+  } else if (xp <= 0) {
+    message.textContent += " Let's get your first points on the board.";
+  }
 
-  // --------------------------------------------------------------
-  // TODO: Add at least ONE more condition that checks a MILESTONE.
-  // This is separate from the correct/incorrect check above —
-  // it reacts to the current STATE, not the most recent action.
-  //
-  // Ask: what happens when gameState reaches a certain number?
-  //
-  // Example (Lives System hitting zero):
-  //
-  //   if (gameState <= 0) {
-  //     message.textContent = "Game Over! Resetting...";
-  //   }
-  //
-  // Example (XP hitting a level-up threshold):
-  //
-  //   if (gameState >= 100) {
-  //     message.textContent = "Level Up! 🎉";
-  //   } else if (gameState >= 50) {
-  //     message.textContent = "Halfway there!";
-  //   }
-  // --------------------------------------------------------------
+  // ----- Update the screen (Step 6) -----
+  statValue.textContent = xp;
 
-  // TODO: add your milestone if/else if/else chain here
-
-
-  // --------------------------------------------------------------
-  // STEP 6: UPDATE THE SCREEN
-  // --------------------------------------------------------------
-  // Remember: changing a variable does NOT change what the player
-  // sees. You have to update the DOM separately.
-  // --------------------------------------------------------------
-  statValue.textContent = gameState;
-
-  // This logs to YOUR dev console (in the browser, press F12 to see
-  // the real one too) — it's for your team, not the player.
-  console.log("Current state:", gameState, "| Correct?", correct);
-  devLog.textContent = `state = ${gameState} | last answer correct = ${correct}`;
+  // ----- Dev console (for the team, not the player) -----
+  console.log("XP:", xp, "| Correct?", correct);
+  devLog.textContent = `xp = ${xp} | last answer correct = ${correct}`;
 }
 
 
 /* ----------------------------------------------------------------
    STEP 7: RESET BUTTON
    ----------------------------------------------------------------
-   This puts everything back to its starting point.
-
-   Notice the order:
-     1. Reset the STATE (the variable)
-     2. Reset the DOM (what the player sees)
-
-   TODO: Update the starting value below to match Step 2.
+   State first, then UI — same order every time.
 ---------------------------------------------------------------- */
 function handleReset() {
-  gameState = 0; // <-- match this to your starting value from Step 2
+  xp = STARTING_XP;
 
-  statValue.textContent = gameState;
+  statValue.textContent = xp;
   message.textContent = "Press \"Answer\" to begin!";
   devLog.textContent = "Waiting for input...";
 
@@ -206,25 +131,19 @@ function handleReset() {
 
 /* ----------------------------------------------------------------
    STEP 8: EVENT LISTENERS
-   ----------------------------------------------------------------
-   This connects your buttons to the functions above.
-   You shouldn't need to change this part.
 ---------------------------------------------------------------- */
 answerBtn.addEventListener("click", handleAnswer);
 resetBtn.addEventListener("click", handleReset);
 
 
 /* ================================================================
-   ✅ CHECKLIST BEFORE YOU SHOWCASE
+   ✅ REQUIRED ELEMENTS CHECK (all satisfied above)
    ================================================================
-   [ ] One state variable that clearly represents your feature
-   [ ] At least 2 comparison operators used (>, <, >=, <=, ===)
-   [ ] An if / else (or if / else if / else) chain with 3+ outcomes
-   [ ] Feedback message updates for the player
-   [ ] statLabel in index.html renamed to match your feature
-   [ ] Reset button correctly returns everything to start values
-
-   Stuck? Re-read Slide 4 (Example Game Logic) and Slide 7
-   (Think Like a Game Designer) — your IF -> THEN sentence should
-   turn almost directly into the if-statement you need here.
+   [x] One state variable: xp
+   [x] 2+ comparison operators: >=, <=
+   [x] if / else if / else chain with 3+ outcomes (milestone branch)
+   [x] Array used for randomness: xpRewards
+   [x] Feedback message updates for the player
+   [x] statLabel renamed to match the feature
+   [x] Reset button returns everything to start values
 ================================================================ */
