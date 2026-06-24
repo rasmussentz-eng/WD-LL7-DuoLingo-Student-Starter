@@ -126,11 +126,11 @@ function handleAnswer()
   // Example pattern (Streak Tracker):
   //
     if (streak >= 10) {
-      streak++;
+      
     message.textContent = `Amazing! 10 Streak!`;
-    } else if { (streak >= 5) }
-       streak = 0;
-      message.textContent = " Nice 5 Streak! ";
+    } else if  (streak >= 5) }
+       
+      message.textContent = "Nice 5 Streak!";
   //   }
   // --------------------------------------------------------------
 
