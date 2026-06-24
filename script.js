@@ -117,7 +117,7 @@ function handleAnswer()
   //
      if (correct) {
        streak++;
-       message.textContent = 'Correct! Streak: ${streak} ';
+       message.textContent = `Correct! Streak: ${streak}`;
     } else {
      streak=0;
    message.textContent = "Wrong! Streak reset to 0.";
@@ -126,21 +126,15 @@ function handleAnswer()
   // Example pattern (Streak Tracker):
   //
     if (streak >= 10) {
-      gameState++;
+      streak++;
     message.textContent = `Amazing! 10 Streak!`;
     } else if { (streak >= 5) }
-  //     gameState = 0;
+       streak = 0;
       message.textContent = " Nice 5 Streak! ";
   //   }
   // --------------------------------------------------------------
 
-  if (correct) {
-    // TODO: what happens to your game state when the answer is correct?
-    message.textContent = "Correct!";
-  } else {
-    // TODO: what happens to your game state when the answer is incorrect?
-    message.textContent = "Try again!";
-  }
+  
 
 
   // --------------------------------------------------------------
