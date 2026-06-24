@@ -52,7 +52,7 @@ const devLog = document.getElementById("devLog");
 
    TODO: Replace the line below with your own state variable.
 ---------------------------------------------------------------- */
-let gameState = 0; // <-- rename this and set a starting value
+let streak = 0; // <-- rename this and set a starting value
 
 
 /* ----------------------------------------------------------------
@@ -115,21 +115,22 @@ function handleAnswer() {
   //
   // Example pattern (Lives System):
   //
-  //   if (correct) {
-  //     message.textContent = "Correct! Keep going.";
-  //   } else {
-  //     gameState--;
-  //     message.textContent = "Incorrect! You lost a life.";
+     if (correct) {
+       streak++;
+       message.textContent = 'Correct! Streak: ${streak} ';
+    } else {
+     streak=0;
+   message.textContent = "Wrong! STreak reset to 0.";
   //   }
   //
   // Example pattern (Streak Tracker):
   //
-  //   if (correct) {
-  //     gameState++;
-  //     message.textContent = `Nice! Streak is now ${gameState}.`;
-  //   } else {
+    if (streak >= 10) {
+      gameState++;
+    message.textContent = `Amazing! 10 Streak!`;
+    } else if { (streak >= 5) }
   //     gameState = 0;
-  //     message.textContent = "Streak reset. Try again!";
+      message.textContent = " Nice 5 Streak! ";
   //   }
   // --------------------------------------------------------------
 
@@ -173,7 +174,7 @@ function handleAnswer() {
   // Remember: changing a variable does NOT change what the player
   // sees. You have to update the DOM separately.
   // --------------------------------------------------------------
-  statValue.textContent = gameState;
+  statValue.textContent = streak;
 
   // This logs to YOUR dev console (in the browser, press F12 to see
   // the real one too) — it's for your team, not the player.
@@ -194,9 +195,9 @@ function handleAnswer() {
    TODO: Update the starting value below to match Step 2.
 ---------------------------------------------------------------- */
 function handleReset() {
-  gameState = 0; // <-- match this to your starting value from Step 2
+  streak = 0; // <-- match this to your starting value from Step 2
 
-  statValue.textContent = gameState;
+  statValue.textContent = streak;
   message.textContent = "Press \"Answer\" to begin!";
   devLog.textContent = "Waiting for input...";
 
