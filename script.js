@@ -105,7 +105,7 @@ function isAnswerCorrect() {
    Then translate it below. Some starter patterns are shown —
    delete the ones you don't need and build out your own.
 ---------------------------------------------------------------- */
-function handleAnswer() {
+function handleAnswer() 
 
   const correct = isAnswerCorrect();
 
@@ -120,7 +120,7 @@ function handleAnswer() {
        message.textContent = 'Correct! Streak: ${streak} ';
     } else {
      streak=0;
-   message.textContent = "Wrong! STreak reset to 0.";
+   message.textContent = "Wrong! Streak reset to 0.";
   //   }
   //
   // Example pattern (Streak Tracker):
@@ -178,8 +178,8 @@ function handleAnswer() {
 
   // This logs to YOUR dev console (in the browser, press F12 to see
   // the real one too) — it's for your team, not the player.
-  console.log("Current state:", gameState, "| Correct?", correct);
-  devLog.textContent = `state = ${gameState} | last answer correct = ${correct}`;
+  console.log("Current streak:", streak, "| Correct?", correct);
+  devLog.textContent = `streak = ${streak} | last answer correct = ${correct}`;
 }
 
 
