@@ -105,7 +105,7 @@ function isAnswerCorrect() {
    Then translate it below. Some starter patterns are shown —
    delete the ones you don't need and build out your own.
 ---------------------------------------------------------------- */
-function handleAnswer() {}
+function handleAnswer() {
 
   const correct = isAnswerCorrect();
 
@@ -117,8 +117,8 @@ function handleAnswer() {}
   //
      if (correct) {
        streak++;
-       message.textContent = ` Correct! Streak: ${streak} `;
-    } else 
+       message.textContent = `Correct! Streak: ${streak}`;
+    } else { 
      streak=0;
    message.textContent = "Wrong! Streak reset to 0.";
   //   }
@@ -146,13 +146,13 @@ function handleAnswer() {}
   //
   // Example (Lives System hitting zero):
   //
-  //   if (gameState <= 0) {
+     if (streak <= 0) {
   //     message.textContent = "Game Over! Resetting...";
   //   }
   //
   // Example (XP hitting a level-up threshold):
   //
-  //   if (gameState >= 100) {
+    if (streak >= 100) {
   //     message.textContent = "Level Up! 🎉";
   //   } else if (gameState >= 50) {
   //     message.textContent = "Halfway there!";
